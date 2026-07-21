@@ -54,7 +54,7 @@ async function main() {
         updateFlowers(delta, time);
 
         // Transition: user starts blowing
-        if (wind > 0.1) {
+        if (wind > 0.05) {
           currentPhase = PHASES.BLOWING;
           phaseTime = 0;
           blowProgress = 0;
@@ -66,7 +66,7 @@ async function main() {
         updateFlowers(delta, time);
 
         // Build up blow progress while wind is sustained
-        if (wind > 0.15) {
+        if (wind > 0.08) {
           blowProgress += delta;
         } else {
           // Drain slowly when not blowing

@@ -76,7 +76,13 @@ export function initAudio() {
 
     state = AUDIO_STATES.REQUESTING;
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          noiseSuppression: false,
+          echoCancellation: false,
+          autoGainControl: false,
+        },
+      });
       setupAudioPipeline(stream);
       state = AUDIO_STATES.ACTIVE;
       promptEl.textContent = '💨 Blow into your microphone to extinguish the candles!';
@@ -95,7 +101,13 @@ export function initAudio() {
         // Try mic on first interaction
         micTried = true;
         state = AUDIO_STATES.REQUESTING;
-        navigator.mediaDevices.getUserMedia({ audio: true })
+        navigator.mediaDevices.getUserMedia({
+          audio: {
+            noiseSuppression: false,
+            echoCancellation: false,
+            autoGainControl: false,
+          },
+        })
           .then((stream) => {
             setupAudioPipeline(stream);
             state = AUDIO_STATES.ACTIVE;
@@ -122,7 +134,7 @@ function setupAudioPipeline(stream) {
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
   const source = audioContext.createMediaStreamSource(stream);
   analyser = audioContext.createAnalyser();
-  analyser.fftSize = 256;
+  analyser.fftSize = 1024;
   source.connect(analyser);
   dataArray = new Uint8Array(analyser.frequencyBinCount);
 
@@ -156,12 +168,12 @@ export function updateAudio(delta) {
     }
     const rms = Math.sqrt(sum / dataArray.length);
 
-    // Map to wind strength (threshold + amplification)
-    const raw = Math.min(1, Math.max(0, (rms - 0.02) / 0.15));
+    // Map to wind strength — lower threshold for better blow detection
+    const raw = Math.min(1, Math.max(0, (rms - 0.008) / 0.12));
 
     // Smooth with exponential moving average
-    const smoothing = 0.08;
-    windStrength += (raw - windStrength) * Math.min(smoothing / Math.max(delta, 0.001), 1);
+    const smoothing = Math.min(delta * 12, 1); // ~90% response in ~100ms
+    windStrength += (raw - windStrength) * smoothing;
 
     updateMeter(windStrength);
   } else if (state === AUDIO_STATES.FALLBACK || state === AUDIO_STATES.REQUESTING) {
