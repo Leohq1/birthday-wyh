@@ -24,6 +24,12 @@ async function main() {
   // Load config first (letter text, etc.)
   await loadConfig();
 
+  // Check WebGL support before initializing Three.js
+  if (!window.__webglOk) {
+    showFallback();
+    return;
+  }
+
   const { scene, composer } = initScene();
   const clock = getClock();
 
@@ -32,12 +38,6 @@ async function main() {
   initFlowers(scene);
   initLetter(scene);
   initAudio();
-
-  // Check for WebGL support
-  if (!getComposer()) {
-    showFallback();
-    return;
-  }
 
   function animate() {
     requestAnimationFrame(animate);

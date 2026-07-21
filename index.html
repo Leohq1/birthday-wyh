@@ -15,6 +15,7 @@
     // Quick WebGL check before loading Three.js
     var canvas = document.createElement('canvas');
     var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    window.__webglOk = !!gl;
     if (!gl) {
       document.getElementById('app').innerHTML = '<div class="fallback-message" style="display:block"><span class="cake-emoji">🎂</span><p>Happy Birthday!</p><p style="font-size:16px;margin-top:16px;">Please open this page in a modern browser<br>that supports WebGL (Chrome, Firefox, Edge).</p></div>';
     }

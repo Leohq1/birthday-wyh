@@ -93,6 +93,7 @@ export function initAudio() {
       spacePressed = true;
       if (state === AUDIO_STATES.IDLE) {
         // Try mic on first interaction
+        micTried = true;
         state = AUDIO_STATES.REQUESTING;
         navigator.mediaDevices.getUserMedia({ audio: true })
           .then((stream) => {
