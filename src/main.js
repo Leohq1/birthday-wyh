@@ -1,8 +1,8 @@
-import { initScene, getScene, getComposer, getClock, setSceneBrightness } from './scene.js';
-import { initCake, updateCake, extinguishCandles, updateSmoke, areCandlesLit } from './cake.js';
+import { initScene, getComposer, getClock, setSceneBrightness, setBloomEnabled } from './scene.js';
+import { initCake, updateCake, extinguishCandles, updateSmoke } from './cake.js';
 import { initFlowers, updateFlowers } from './flowers.js';
-import { initAudio, updateAudio, getWindStrength, hidePrompt, hideMeter, getAudioState } from './audio.js';
-import { initLetter, startLetterReveal, updateLetter, getAnimationPhase } from './letter.js';
+import { initAudio, updateAudio, getWindStrength, hidePrompt, hideMeter } from './audio.js';
+import { initLetter, startLetterReveal, updateLetter } from './letter.js';
 import { loadConfig } from './config.js';
 
 const PHASES = {
@@ -15,13 +15,15 @@ const PHASES = {
 let currentPhase = PHASES.IDLE;
 let phaseTime = 0;
 let blowProgress = 0;
+let fpsFrames = 0;
+let fpsTime = 0;
+let bloomEnabled = true;
 const BLOW_DURATION = 3.5; // seconds of sustained blowing needed
 
 async function main() {
   // Load config first (letter text, etc.)
   await loadConfig();
 
-  // FIX: destructure scene from initScene() — getScene() would return undefined before init
   const { scene, composer } = initScene();
   const clock = getClock();
 
@@ -94,6 +96,24 @@ async function main() {
         updateSmoke(delta);
         updateLetter(delta, time);
         break;
+
+      default:
+        console.warn('Unknown phase:', currentPhase);
+        break;
+    }
+
+    // Performance monitoring — disable bloom if FPS drops
+    fpsFrames++;
+    fpsTime += delta;
+    if (fpsTime >= 2.0 && bloomEnabled) {
+      const fps = fpsFrames / fpsTime;
+      if (fps < 30) {
+        bloomEnabled = false;
+        setBloomEnabled(false);
+        console.warn('Performance: disabling bloom (fps:', Math.round(fps), ')');
+      }
+      fpsFrames = 0;
+      fpsTime = 0;
     }
 
     composer.render();

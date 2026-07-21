@@ -67,10 +67,14 @@ export function initAudio() {
   promptEl.textContent = '🎂 Click anywhere to begin...';
 
   // Wait for first user gesture, then try mic
-  const tryMic = async () => {
-    if (state !== AUDIO_STATES.IDLE) return;
-    state = AUDIO_STATES.REQUESTING;
+  let micTried = false;
 
+  const tryMicOnce = async () => {
+    if (micTried) return;
+    micTried = true;
+    document.removeEventListener('click', tryMicOnce);
+
+    state = AUDIO_STATES.REQUESTING;
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       setupAudioPipeline(stream);
@@ -82,7 +86,7 @@ export function initAudio() {
     }
   };
 
-  document.addEventListener('click', tryMic, { once: false });
+  document.addEventListener('click', tryMicOnce);
   document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
       e.preventDefault();

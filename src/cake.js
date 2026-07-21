@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 let cakeGroup;
 let flameMeshes = [];
+let innerFlameMeshes = [];
 let candleWicks = [];
 let smokeParticles = [];
 let candlesLit = true;
@@ -152,6 +153,7 @@ export function initCake(scene) {
     innerFlame.position.y = 1.92;
     innerFlame.name = 'innerFlame';
     candleGroup.add(innerFlame);
+    innerFlameMeshes.push(innerFlame);
 
     candleGroup.position.set(x, 0, z);
     cakeGroup.add(candleGroup);
@@ -241,6 +243,10 @@ export function extinguishCandles(scene) {
       smokeParticles.push(smoke);
     }
 
+    flame.visible = false;
+  });
+
+  innerFlameMeshes.forEach((flame) => {
     flame.visible = false;
   });
 }

@@ -134,3 +134,7 @@ export function setSceneBrightness(factor) {
   bloomPass.strength = 1.5 * factor;
   renderer.toneMappingExposure = 1.2 * (0.3 + factor * 0.7);
 }
+
+export function setBloomEnabled(enabled) {
+  bloomPass.enabled = enabled;
+}
