@@ -1,26 +1,25 @@
-import { initScene, getComposer, getScene, getClock } from './scene.js';
-import { initCake, updateCake } from './cake.js';
-import { initFlowers, updateFlowers } from './flowers.js';
-import { initAudio, updateAudio, getWindStrength } from './audio.js';
+import { initScene, getScene, getComposer, getClock } from './scene.js';
+import { initLetter, startLetterReveal, updateLetter } from './letter.js';
+import { loadConfig } from './config.js';
 
-const { scene, composer } = initScene();
-const clock = getClock();
+async function main() {
+  await loadConfig();
+  const { scene, composer } = initScene();
+  const clock = getClock();
 
-initCake(scene);
-initFlowers(scene);
-initAudio();
+  initLetter(scene);
 
-function animate() {
-  requestAnimationFrame(animate);
-  const delta = Math.min(clock.getDelta(), 0.1);
-  const time = performance.now() * 0.001;
+  // Trigger letter after 2 seconds
+  setTimeout(() => startLetterReveal(), 2000);
 
-  updateAudio(delta);
-  const wind = getWindStrength();
+  function animate() {
+    requestAnimationFrame(animate);
+    const delta = Math.min(clock.getDelta(), 0.1);
+    const time = performance.now() * 0.001;
 
-  updateCake(delta, wind);
-  updateFlowers(delta, time);
-
-  composer.render();
+    updateLetter(delta, time);
+    composer.render();
+  }
+  animate();
 }
-animate();
+main();
