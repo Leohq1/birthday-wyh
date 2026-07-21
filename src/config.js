@@ -10,7 +10,7 @@ let config = { ...DEFAULT_CONFIG };
 
 export async function loadConfig() {
   try {
-    const response = await fetch('/config.json');
+    const response = await fetch(import.meta.env.BASE_URL + 'config.json');
     if (!response.ok) {
       console.warn('config.json not found, using defaults');
       return config;
