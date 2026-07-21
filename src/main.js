@@ -1,17 +1,15 @@
-import { initScene } from './scene.js';
-import * as THREE from 'three';
+import { initScene, getComposer, getScene, getClock } from './scene.js';
+import { initCake, updateCake } from './cake.js';
 
 const { scene, composer } = initScene();
+const clock = getClock();
 
-// Test cube
-const geom = new THREE.BoxGeometry(1, 1, 1);
-const mat = new THREE.MeshStandardMaterial({ color: 0xff69b4 });
-const cube = new THREE.Mesh(geom, mat);
-scene.add(cube);
+initCake(scene);
 
 function animate() {
   requestAnimationFrame(animate);
-  cube.rotation.y += 0.01;
+  const delta = Math.min(clock.getDelta(), 0.1);
+  updateCake(delta, 0);
   composer.render();
 }
 animate();
