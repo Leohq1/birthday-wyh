@@ -1,0 +1,54 @@
+<h2>Candle Mechanics — How Should Blowing Work?</h2>
+<p class="subtitle">The microphone-driven candle interaction is the centerpiece</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>🕯️ One at a Time</h3>
+      <p>Each blow extinguishes one candle. The user needs to blow multiple times (~5 blows for 5 candles). Slow reveal, builds anticipation. Each extinguished candle makes a small puff of smoke.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>💨 All at Once (Sustained Blow)</h3>
+      <p>User must blow continuously. A "wind strength" meter fills up. Once sustained long enough, all candles go out together in one satisfying whoosh. One dramatic moment.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>🎯 Hybrid — Progressive with Finale</h3>
+      <p>Candles blow out one by one as the user keeps blowing, with a short pause between each. After the last candle, a small celebration effect (sparkle burst). Natural, game-like feel.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <h3>Also: Microphone Fallback</h3>
+  <p style="color: #888; font-size: 14px;">Some devices don't have microphones, or the user might deny permission. What's the fallback?</p>
+  <div class="options">
+    <div class="option" data-choice="fallback-click" onclick="toggleSelect(this)">
+      <div class="letter">🖱️</div>
+      <div class="content">
+        <h3>Click / Tap to Blow</h3>
+        <p>A big on-screen "Blow" button. Tap/click rapidly, or hold, to simulate blowing. Simple and universal.</p>
+      </div>
+    </div>
+    <div class="option" data-choice="fallback-space" onclick="toggleSelect(this)">
+      <div class="letter">⌨️</div>
+      <div class="content">
+        <h3>Spacebar / Key Press</h3>
+        <p>Hold spacebar or repeatedly press to blow. Good for desktop, not great for mobile.</p>
+      </div>
+    </div>
+    <div class="option" data-choice="fallback-both" onclick="toggleSelect(this)">
+      <div class="letter">👍</div>
+      <div class="content">
+        <h3>Both — Auto-Detect Best Option</h3>
+        <p>Mic first (with a prompt). If denied or unavailable, show a big button that works for click AND spacebar.</p>
+      </div>
+    </div>
+  </div>
+</div>
