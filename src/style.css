@@ -1,0 +1,162 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background: #2d1b2e;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#three-container {
+  width: 100%;
+  height: 100%;
+}
+
+#three-container canvas {
+  display: block;
+}
+
+/* UI overlay for prompts, wind meter, letter */
+#ui-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Prompt text */
+.prompt {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  transition: opacity 0.5s;
+  pointer-events: auto;
+}
+
+/* Wind meter */
+.wind-meter-container {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 12px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  display: none;
+}
+
+.wind-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4ecdc4, #7ec8e3);
+  border-radius: 6px;
+  width: 0%;
+  transition: width 0.05s linear;
+}
+
+/* Letter overlay */
+.letter-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 500px;
+  width: 80%;
+  padding: 40px;
+  background: #fffef5;
+  border: 2px solid #e8d5a3;
+  border-radius: 4px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  display: none;
+  pointer-events: auto;
+}
+
+.letter-overlay .letter-text {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #5d4037;
+  white-space: pre-wrap;
+}
+
+.letter-overlay .letter-signature {
+  margin-top: 24px;
+  font-style: italic;
+  color: #8d6e63;
+}
+
+/* Cursor blink for typewriter */
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: #5d4037;
+  animation: blink 0.7s infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Mobile tap button */
+.blow-button {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 48px;
+  font-size: 24px;
+  font-family: inherit;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 50px;
+  cursor: pointer;
+  display: none;
+  pointer-events: auto;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.blow-button:active {
+  background: rgba(255,255,255,0.3);
+}
+
+/* WebGL fallback */
+.fallback-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  display: none;
+}
+
+.fallback-message .cake-emoji {
+  font-size: 80px;
+  display: block;
+  margin-bottom: 20px;
+}
