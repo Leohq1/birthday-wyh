@@ -93,7 +93,7 @@ export function initLetter(scene) {
   letterGroup.add(paperPlane);
 
   // Position envelope high above scene (offscreen)
-  letterGroup.position.set(0, 5, -1);
+  letterGroup.position.set(0, 5, 2);
   letterGroup.rotation.x = -0.3;
 
   scene.add(letterGroup);
@@ -152,7 +152,7 @@ export function updateLetter(delta, time) {
       // Flap opens
       const t = Math.min(animTime / 0.8, 1.0);
       const ease = 1 - Math.pow(1 - t, 2);
-      envelopeFlap.rotation.x = ease * (-Math.PI * 0.7); // flap folds back
+      envelopeFlap.rotation.x = ease * (Math.PI * 0.7); // flap opens toward viewer
 
       if (t >= 1.0) {
         animationPhase = 'paper';

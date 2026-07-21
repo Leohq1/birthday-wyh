@@ -1,0 +1,32 @@
+<h2>Architecture Approaches</h2>
+<p class="subtitle">Two ways to structure the project — both produce the same experience</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>📄 Single HTML File + CDN</h3>
+      <p>One <code>index.html</code> file with Three.js loaded from a CDN. Everything — 3D scene, audio, UI — lives in a single file (possibly split into <code>&lt;script&gt;</code> tags). Just open it in a browser — no build step, no tooling.</p>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Zero setup — open and go</li><li>Easy to share (single file)</li><li>Works offline if assets are inline</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Hard to organize as it grows</li><li>No hot reload during dev</li><li>CDN dependency for Three.js</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>⚡ Vite + ES Modules <span class="label" style="background:#d4edda;color:#155724;padding:2px 8px;border-radius:4px;margin-left:8px;">Recommended</span></h3>
+      <p>Standard Vite project with vanilla JS. Three.js installed via npm. Clean module structure: <code>scene.js</code>, <code>audio.js</code>, <code>cake.js</code>, <code>flowers.js</code>, <code>letter.js</code>. Hot reload during development, optimized production build.</p>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Clean module organization</li><li>HMR during development</li><li>Optimized production build</li><li>Easy to deploy (static files)</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Requires Node.js + npm install</li><li>Slightly more setup</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <h3>Recommendation: Vite</h3>
+  <p>For a project with 5+ distinct concerns (3D scene, cake model, flowers/particles, audio detection, letter reveal), having clean module separation is worth the minimal setup. The final output is still just static files you can host anywhere or open locally.</p>
+</div>

@@ -111,7 +111,7 @@ export function initCake(scene) {
     // Candle body
     const candleGeom = new THREE.CylinderGeometry(0.04, 0.045, 0.4, 16);
     const candleMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color().setHSL(0.12 + i * 0.05, 0.2, 0.92),
+      color: 0xcc2233,
       roughness: 0.4,
     });
     const candle = new THREE.Mesh(candleGeom, candleMat);

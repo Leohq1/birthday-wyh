@@ -28,13 +28,13 @@ export function initScene() {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
+  renderer.toneMappingExposure = 0.85;
 
   const container = document.getElementById('three-container');
   container.appendChild(renderer.domElement);
 
   // Background gradient — set via CSS on canvas parent
-  container.style.background = 'linear-gradient(180deg, #1a0a2e 0%, #2d1b4e 30%, #4a2c5e 60%, #fce4ec 100%)';
+  container.style.background = 'linear-gradient(180deg, #ffffff 0%, #fefefe 50%, #fff0f0 100%)';
 
   // Post-processing
   const renderScene = new RenderPass(scene, camera);
@@ -50,10 +50,10 @@ export function initScene() {
   composer.addPass(bloomPass);
 
   // Lighting
-  const ambient = new THREE.AmbientLight(0xffeef4, 0.6);
+  const ambient = new THREE.AmbientLight(0xffeef4, 0.35);
   scene.add(ambient);
 
-  const keyLight = new THREE.DirectionalLight(0xfff5ee, 2.5);
+  const keyLight = new THREE.DirectionalLight(0xfff5ee, 1.5);
   keyLight.position.set(5, 8, 5);
   keyLight.castShadow = true;
   keyLight.shadow.mapSize.width = 1024;
@@ -78,10 +78,10 @@ export function initScene() {
   // Ground plane (for shadows)
   const groundGeom = new THREE.PlaneGeometry(20, 20);
   const groundMat = new THREE.MeshStandardMaterial({
-    color: 0x3d1f3d,
+    color: 0xeeeeee,
     roughness: 0.9,
     transparent: true,
-    opacity: 0.3,
+    opacity: 0.15,
   });
   const ground = new THREE.Mesh(groundGeom, groundMat);
   ground.rotation.x = -Math.PI / 2;
@@ -132,7 +132,7 @@ export function getBloomPass() {
 export function setSceneBrightness(factor) {
   // factor: 0 = dim, 1 = normal
   bloomPass.strength = 1.5 * factor;
-  renderer.toneMappingExposure = 1.2 * (0.3 + factor * 0.7);
+  renderer.toneMappingExposure = 0.85 * (0.3 + factor * 0.7);
 }
 
 export function setBloomEnabled(enabled) {

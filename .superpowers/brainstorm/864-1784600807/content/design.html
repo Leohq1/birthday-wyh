@@ -1,0 +1,102 @@
+<h2>Design Overview — Birthday 3D Experience</h2>
+<p class="subtitle">Vite + Three.js • Semi-realistic cake • Microphone blowing • Love letter reveal</p>
+
+<div class="section">
+  <h3>🏗️ Project Structure</h3>
+</div>
+
+<div style="background: #1e1e1e; color: #d4d4d4; border-radius: 8px; padding: 16px 20px; font-family: monospace; font-size: 13px; line-height: 1.7; margin-bottom: 24px;">
+birthday/<br>
+├── <span style="color:#6a9955;">config.json</span>          &larr; Your letter text &amp; settings<br>
+├── index.html<br>
+├── package.json<br>
+├── vite.config.js<br>
+└── src/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#ce9178;">main.js</span>           &larr; Entry point, orchestrates everything<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#ce9178;">scene.js</span>          &larr; Three.js scene setup, lighting, background gradient<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#ce9178;">cake.js</span>           &larr; 3D cake model (layers, frosting, candles, flames)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#ce9178;">flowers.js</span>        &larr; Ring of flowers + falling petal particles<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#ce9178;">audio.js</span>          &larr; Mic detection, wind meter, spacebar fallback<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#ce9178;">letter.js</span>         &larr; Envelope + paper reveal + typewriter<br>
+&nbsp;&nbsp;&nbsp;&nbsp;└── <span style="color:#ce9178;">config.js</span>         &larr; Loads config.json
+</div>
+
+<div class="section">
+  <h3>🎬 Scene Flow</h3>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <div class="card-body">
+      <h3>Phase 1: Idle</h3>
+      <p>Cake rotates slowly. Candles flicker with animated flame shaders. Petals drift down. Flowers ring the base. A subtle prompt: "Blow into your microphone to light up the candles..."</p>
+      <div class="label">User sees the scene, hears nothing yet</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h3>Phase 2: Blowing</h3>
+      <p>User blows into mic (or holds spacebar). A wind meter appears. Candle flames react to audio intensity — leaning, flickering more. Meter fills over ~3-4 seconds of sustained blowing.</p>
+      <div class="label">Interactive — real-time audio feedback</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h3>Phase 3: Extinguish</h3>
+      <p>Meter full → all candles go out at once. Puffs of smoke particles rise from each wick. Scene dims slightly. Brief pause for effect.</p>
+      <div class="label">~2 second dramatic beat</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h3>Phase 4: Letter Reveal</h3>
+      <p>3D envelope floats down from above. Flap opens. Paper slides out and unfolds. Text from config.json appears letter-by-letter (typewriter effect). Scene stays dimmed in background.</p>
+      <div class="label">Emotional payoff — user reads the message</div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <h3>🔧 Key Technical Choices</h3>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <div class="card-body">
+      <h3>Three.js Renderer</h3>
+      <p>WebGL with post-processing (bloom/glow on candles). OrbitControls disabled during blow phase, subtle auto-rotation otherwise.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h3>Audio Pipeline</h3>
+      <p>Web Audio API → AnalyserNode → RMS volume calculation → smoothed value mapped to wind strength. Mic permission requested on first user click/tap.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h3>Particle Systems</h3>
+      <p>Falling petals use a BufferGeometry point cloud. Candle smoke uses sprite-based particles. Both GPU-friendly, no physics engine needed.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h3>Text Rendering</h3>
+      <p>Letter text via CSS overlay (HTML div) — not rendered inside Three.js. Simpler, better typography, easier to style. The envelope/paper are 3D but the text is HTML CSS.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <h3>⚙️ config.json</h3>
+  <div style="background: #1e1e1e; color: #d4d4d4; border-radius: 8px; padding: 16px 20px; font-family: monospace; font-size: 13px; line-height: 1.7;">
+{<br>
+&nbsp;&nbsp;<span style="color:#ce9178;">"recipientName"</span>: <span style="color:#ce9178;">"..."</span>,<br>
+&nbsp;&nbsp;<span style="color:#ce9178;">"message"</span>: <span style="color:#ce9178;">"Dear ...,\n\nHappy Birthday!..."</span>,<br>
+&nbsp;&nbsp;<span style="color:#ce9178;">"signature"</span>: <span style="color:#ce9178;">"With love, ..."</span>,<br>
+&nbsp;&nbsp;<span style="color:#ce9178;">"typewriterSpeed"</span>: <span style="color:#b5cea8;">50</span>,<br>
+&nbsp;&nbsp;<span style="color:#ce9178;">"backgroundColor"</span>: <span style="color:#ce9178;">"#fce4ec"</span><br>
+}<br>
+</div>
+  <p style="margin-top: 12px; font-size: 13px; color: #888;">Edit this one file before opening the page. That's it.</p>
+</div>
