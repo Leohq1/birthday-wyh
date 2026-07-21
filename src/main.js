@@ -18,7 +18,7 @@ let blowProgress = 0;
 let fpsFrames = 0;
 let fpsTime = 0;
 let bloomEnabled = true;
-const BLOW_DURATION = 2.0; // seconds of sustained blowing needed
+const BLOW_DURATION = 1.0; // seconds of sustained blowing needed
 
 async function main() {
   // Load config first (letter text, etc.)
