@@ -4,6 +4,7 @@ import { getConfig } from './config.js';
 let letterGroup;
 let envelopeBody;
 let envelopeFlap;
+let envelopeFrontFace;
 let paperPlane;
 let isAnimating = false;
 let animationPhase = 'idle'; // idle | entering | opening | paper | typing | done
@@ -63,10 +64,10 @@ export function initLetter(scene) {
   borderRight.position.x = 0.61;
   letterGroup.add(borderRight);
 
-  // === Envelope flap (triangular) ===
+  // === Envelope flap (upside-down triangle, hinged at top) ===
   const flapShape = new THREE.Shape();
   flapShape.moveTo(-0.6, 0);
-  flapShape.lineTo(0, 0.5);
+  flapShape.lineTo(0, -0.5);
   flapShape.lineTo(0.6, 0);
   flapShape.closePath();
   const flapGeom = new THREE.ShapeGeometry(flapShape);
@@ -80,6 +81,18 @@ export function initLetter(scene) {
   envelopeFlap.position.set(0, 0.35, 0.01);
   letterGroup.add(envelopeFlap);
 
+  // === Envelope front face (pocket — paper slides out from behind this) ===
+  const frontFaceGeom = new THREE.PlaneGeometry(1.18, 0.52);
+  const frontFaceMat = new THREE.MeshStandardMaterial({
+    color: 0xf5f0e8,
+    roughness: 0.4,
+    metalness: 0.05,
+    side: THREE.DoubleSide,
+  });
+  envelopeFrontFace = new THREE.Mesh(frontFaceGeom, frontFaceMat);
+  envelopeFrontFace.position.set(0, -0.09, 0.025);
+  letterGroup.add(envelopeFrontFace);
+
   // === Paper ===
   const paperGeom = new THREE.PlaneGeometry(0.8, 0.55);
   const paperMat = new THREE.MeshStandardMaterial({
@@ -88,7 +101,7 @@ export function initLetter(scene) {
     side: THREE.DoubleSide,
   });
   paperPlane = new THREE.Mesh(paperGeom, paperMat);
-  paperPlane.position.z = -0.02;
+  paperPlane.position.z = 0.015;
   paperPlane.visible = false;
   letterGroup.add(paperPlane);
 
@@ -152,22 +165,23 @@ export function updateLetter(delta, time) {
       // Flap opens
       const t = Math.min(animTime / 0.8, 1.0);
       const ease = 1 - Math.pow(1 - t, 2);
-      envelopeFlap.rotation.x = ease * (Math.PI * 0.7); // flap opens toward viewer
+      envelopeFlap.rotation.x = ease * (-Math.PI); // full 180-degree flap open toward viewer
 
       if (t >= 1.0) {
         animationPhase = 'paper';
         animTime = 0;
         paperPlane.visible = true;
-        paperPlane.position.set(0, -0.1, -0.02);
+        paperPlane.position.set(0, -0.1, 0.015);
       }
       break;
     }
 
     case 'paper': {
-      // Paper slides out upward
+      // Paper slides out upward and forward from behind the pocket
       const t = Math.min(animTime / 1.0, 1.0);
       const ease = 1 - Math.pow(1 - t, 3);
       paperPlane.position.y = -0.1 + ease * 0.7; // slides up
+      paperPlane.position.z = 0.015 + ease * 0.025; // emerges forward
 
       if (t >= 1.0) {
         animationPhase = 'typing';

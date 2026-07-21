@@ -64,7 +64,7 @@ export function initCake(scene) {
   const topBodyGeom = new THREE.CylinderGeometry(0.55, 0.6, 0.35, 64);
   const topBodyMat = new THREE.MeshStandardMaterial({
     color: 0xfce4ec,
-    roughness: 0.45,
+    roughness: 0.7,
     metalness: 0.05,
   });
   const topBody = new THREE.Mesh(topBodyGeom, topBodyMat);
@@ -77,7 +77,7 @@ export function initCake(scene) {
   const swirlGeom = new THREE.CylinderGeometry(0.52, 0.58, 0.08, 64);
   const swirlMat = new THREE.MeshStandardMaterial({
     color: 0xfff5f8,
-    roughness: 0.2,
+    roughness: 0.7,
     metalness: 0.05,
   });
   const swirl = new THREE.Mesh(swirlGeom, swirlMat);

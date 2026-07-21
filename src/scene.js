@@ -42,7 +42,7 @@ export function initScene() {
     new THREE.Vector2(window.innerWidth, window.innerHeight),
     1.5,   // strength
     0.4,   // radius
-    0.85   // threshold
+    0.85   // threshold — higher avoids blooming on cake surfaces
   );
 
   composer = new EffectComposer(renderer);
@@ -50,10 +50,10 @@ export function initScene() {
   composer.addPass(bloomPass);
 
   // Lighting
-  const ambient = new THREE.AmbientLight(0xffeef4, 0.35);
+  const ambient = new THREE.AmbientLight(0xffeef4, 0.5);
   scene.add(ambient);
 
-  const keyLight = new THREE.DirectionalLight(0xfff5ee, 1.5);
+  const keyLight = new THREE.DirectionalLight(0xfff5ee, 0.8);
   keyLight.position.set(5, 8, 5);
   keyLight.castShadow = true;
   keyLight.shadow.mapSize.width = 1024;
@@ -71,7 +71,7 @@ export function initScene() {
   fillLight.position.set(-3, 2, -3);
   scene.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  const rimLight = new THREE.DirectionalLight(0xffffff, 0.8);
   rimLight.position.set(0, 1, -5);
   scene.add(rimLight);
 
